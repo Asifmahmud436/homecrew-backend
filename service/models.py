@@ -2,11 +2,11 @@ from django.db import models
 from client.models import Client
 
 STARS = [
-    ('one','1'),
-    ('two','2'),
-    ('three','3'),
-    ('four','4'),
-    ('five','5'),
+    ('One','1'),
+    ('Two','2'),
+    ('Three','3'),
+    ('Four','4'),
+    ('Five','5'),
 ]
 STAR_VALUES = dict(STARS)
 class Service(models.Model):
@@ -38,4 +38,4 @@ class Review(models.Model):
     slug = models.SlugField(max_length=40)
 
     def __str__(self) :
-        return f"{self.client.user.first_name}'s review on {self.service.name}"
+        return f"{self.client.user.first_name} {self.client.user.last_name}'s review on {self.service.name}"

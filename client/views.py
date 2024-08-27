@@ -4,6 +4,7 @@ from .import models
 from .import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -77,3 +78,8 @@ class UserLogoutView(APIView):
         request.user.auth_token.delete()
         logout(request)
         return redirect('login')
+    
+class MakeAdminViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = serializers.MakeAdminSerializer
+    permission_classes = [IsAdminUser]  # Only admins can access this viewset

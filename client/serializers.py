@@ -37,3 +37,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(required = True)
     password = serializers.CharField(required = True)
+
+class MakeAdminSerializer(serializers.ModelSerializer):
+    is_staff = serializers.BooleanField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'is_staff', 'first_name', 'last_name']
