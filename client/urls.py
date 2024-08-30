@@ -4,7 +4,7 @@ from .import views
 
 router = DefaultRouter()
 router.register('list',views.ClientViewSet)
-router.register(r'users',views.MakeAdminViewSet)
+# router.register(r'users',views.MakeAdminViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('register/', views.UserRegistrationApiView.as_view(), name='register'),
