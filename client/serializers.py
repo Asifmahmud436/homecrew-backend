@@ -2,8 +2,15 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .import models
 
+class Usererializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+
 class ClientSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(many = False)
+    user = Usererializer(read_only = True)
+    # user = serializers.StringRelatedField(many = False)
     class Meta:
         model = models.Client
         fields = '__all__'
