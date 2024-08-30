@@ -5,12 +5,13 @@ from .import models
 class Usererializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username','first_name','last_name']
+        fields = ['username','first_name','last_name','is_staff']
 
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.is_staff = validated_data.get('last_name', instance.is_staff)
         # instance.email = validated_data.get('email', instance.email)
         instance.save()
         return instance
@@ -31,6 +32,7 @@ class ClientSerializer(serializers.ModelSerializer):
             user.first_name = user_data.get('first_name', user.first_name)
             user.last_name = user_data.get('last_name', user.last_name)
             user.email = user_data.get('email', user.email)
+            user.is_staff = user_data.get('is_staff', user.is_staff)
             user.save()
 
         instance.phone_no = validated_data.get('phone_no', instance.phone_no)
