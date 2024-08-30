@@ -15,6 +15,24 @@ class ClientSerializer(serializers.ModelSerializer):
         model = models.Client
         fields = '__all__'
 
+    def update(self, instance, validated_data):
+        # Handle nested update for User fields
+        user_data = validated_data.pop('user', None)
+        if user_data:
+            user = instance.user
+            user.username = user_data.get('username', user.username)
+            user.first_name = user_data.get('first_name', user.first_name)
+            user.last_name = user_data.get('last_name', user.last_name)
+            user.email = user_data.get('email', user.email)
+            user.save()
+        
+        # Update Client fields
+        instance.phone_no = validated_data.get('phone_no', instance.phone_no)
+        instance.facebook_Id_link = validated_data.get('facebook_Id_link', instance.facebook_Id_link)
+        instance.image = validated_data.get('image', instance.image)
+        instance.save()
+        return instance
+
 class RegistrationSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(required = True)
     class Meta:
