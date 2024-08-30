@@ -13,7 +13,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate,login,logout
-from rest_framework.exceptions import PermissionDenied
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = models.Client.objects.all()
@@ -97,19 +96,3 @@ class UserLogoutView(APIView):
 #         if 'is_staff' in serializer.validated_data and not self.request.user.is_staff:
 #             raise serializers.ValidationError("Only admins can change admin status.")
 #         serializer.save()
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = serializers.MakeAdminSerializer
-
-    def get_permissions(self):
-        if self.action in ['retrieve', 'update', 'partial_update']:
-            return [IsAuthenticated()]
-        elif self.action in ['list', 'destroy']:
-            return [IsAdminUser()]
-        return super().get_permissions()
-
-    def perform_update(self, serializer):
-        request_user = self.request.user
-        if 'is_staff' in serializer.validated_data and not request_user.is_staff:
-            raise PermissionDenied("Only admins can change admin status.")
-        serializer.save()

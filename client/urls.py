@@ -4,7 +4,7 @@ from .import views
 
 router = DefaultRouter()
 router.register('list',views.ClientViewSet)
-router.register(r'users', views.UserViewSet)
+
 # router.register(r'users',views.MakeAdminViewSet)
 urlpatterns = [
     path('', include(router.urls)),
