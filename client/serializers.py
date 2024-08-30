@@ -6,7 +6,7 @@ class Usererializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-        
+
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
         instance.first_name = validated_data.get('first_name', instance.first_name)
@@ -35,6 +35,9 @@ class ClientSerializer(serializers.ModelSerializer):
             user.save()
         
         # Update Client fields
+        instance.user.username = validated_data.get('username', instance.user.username)
+        instance.user.first_name = validated_data.get('first_name', instance.user.first_name)
+        instance.user.last_name = validated_data.get('last_name', instance.user.last_name)
         instance.phone_no = validated_data.get('phone_no', instance.phone_no)
         instance.facebook_Id_link = validated_data.get('facebook_Id_link', instance.facebook_Id_link)
         instance.image = validated_data.get('image', instance.image)
