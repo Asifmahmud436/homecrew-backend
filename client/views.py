@@ -79,20 +79,20 @@ class UserLogoutView(APIView):
         logout(request)
         return redirect('login')
     
-class MakeAdminViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = serializers.MakeAdminSerializer
-    def get_permissions(self):
-        # Allow all authenticated users to view and update their own details
-        if self.action in ['retrieve', 'update', 'partial_update']:
-            return [IsAuthenticated()]
-        # Only admins can list or delete users
-        elif self.action in ['list', 'destroy']:
-            return [IsAdminUser()]
-        return super().get_permissions()
+# class MakeAdminViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = serializers.MakeAdminSerializer
+#     def get_permissions(self):
+#         # Allow all authenticated users to view and update their own details
+#         if self.action in ['retrieve', 'update', 'partial_update']:
+#             return [IsAuthenticated()]
+#         # Only admins can list or delete users
+#         elif self.action in ['list', 'destroy']:
+#             return [IsAdminUser()]
+#         return super().get_permissions()
 
-    def perform_update(self, serializer):
-        # Ensure non-admins can't make other users admins
-        if 'is_staff' in serializer.validated_data and not self.request.user.is_staff:
-            raise serializers.ValidationError("Only admins can change admin status.")
-        serializer.save()
+#     def perform_update(self, serializer):
+#         # Ensure non-admins can't make other users admins
+#         if 'is_staff' in serializer.validated_data and not self.request.user.is_staff:
+#             raise serializers.ValidationError("Only admins can change admin status.")
+#         serializer.save()
