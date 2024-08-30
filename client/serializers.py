@@ -26,13 +26,13 @@ class ClientSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # Handle nested update for User fields
         user_data = validated_data.pop('user', None)
-        if user_data:
-            user = instance.user
-            user.username = user_data.get('username', user.username)
-            user.first_name = user_data.get('first_name', user.first_name)
-            user.last_name = user_data.get('last_name', user.last_name)
-            user.email = user_data.get('email', user.email)
-            user.save()
+        # if user_data:
+        #     user = instance.user
+        #     user.username = user_data.get('username', user.username)
+        #     user.first_name = user_data.get('first_name', user.first_name)
+        #     user.last_name = user_data.get('last_name', user.last_name)
+        #     user.email = user_data.get('email', user.email)
+        #     user.save()
         
         # Update Client fields
         instance.user.username = validated_data.get('username', instance.user.username)
