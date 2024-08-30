@@ -40,7 +40,7 @@ class UserLoginSerializer(serializers.Serializer):
 
 # class MakeAdminSerializer(serializers.ModelSerializer):
 #     # is_staff = serializers.BooleanField()
-    
+
 #     class Meta:
 #         model = User
 #         fields = ['id', 'username', 'email', 'is_staff', 'first_name', 'last_name']
@@ -54,3 +54,13 @@ class UserLoginSerializer(serializers.Serializer):
         
 #         # Proceed with the regular update process
 #         return super().update(instance, validated_data)
+class MakeAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'is_staff', 'first_name', 'last_name']
+
+    def update(self, instance, validated_data):
+        request_user = self.context['request'].user
+        if not request_user.is_staff and 'is_staff' in validated_data:
+            validated_data.pop('is_staff')
+        return super().update(instance, validated_data)
