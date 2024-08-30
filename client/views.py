@@ -18,9 +18,9 @@ from client.models import Client
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = models.Client.objects.all()
     serializer_class = serializers.ClientSerializer
-    def get_queryset(self):
-        # Allow users to only retrieve and update their own profiles
-        return Client.objects.filter(user=self.request.user)
+    # def get_queryset(self):
+    #     # Allow users to only retrieve and update their own profiles
+    #     return Client.objects.filter(user=self.request.user)
 
 class UserRegistrationApiView(APIView):
     serializer_class = serializers.RegistrationSerializer
