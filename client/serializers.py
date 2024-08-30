@@ -17,27 +17,22 @@ class Usererializer(serializers.ModelSerializer):
 
 
 class ClientSerializer(serializers.ModelSerializer):
-    user = Usererializer(read_only = True)
+    user = Usererializer()
     # user = serializers.StringRelatedField(many = False)
     class Meta:
         model = models.Client
         fields = '__all__'
 
     def update(self, instance, validated_data):
-        # Handle nested update for User fields
         user_data = validated_data.pop('user', None)
-        # if user_data:
-        #     user = instance.user
-        #     user.username = user_data.get('username', user.username)
-        #     user.first_name = user_data.get('first_name', user.first_name)
-        #     user.last_name = user_data.get('last_name', user.last_name)
-        #     user.email = user_data.get('email', user.email)
-        #     user.save()
-        
-        # Update Client fields
-        instance.user.username = validated_data.get('username', instance.user.username)
-        instance.user.first_name = validated_data.get('first_name', instance.user.first_name)
-        instance.user.last_name = validated_data.get('last_name', instance.user.last_name)
+        if user_data:
+            user = instance.user
+            user.username = user_data.get('username', user.username)
+            user.first_name = user_data.get('first_name', user.first_name)
+            user.last_name = user_data.get('last_name', user.last_name)
+            user.email = user_data.get('email', user.email)
+            user.save()
+
         instance.phone_no = validated_data.get('phone_no', instance.phone_no)
         instance.facebook_Id_link = validated_data.get('facebook_Id_link', instance.facebook_Id_link)
         instance.image = validated_data.get('image', instance.image)
