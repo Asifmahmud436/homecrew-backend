@@ -4,7 +4,7 @@ from .import models
 from .import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser,IsAuthenticated
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -82,4 +82,17 @@ class UserLogoutView(APIView):
 class MakeAdminViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.MakeAdminSerializer
-    permission_classes = [IsAdminUser]  # Only admins can access this viewset
+    def get_permissions(self):
+        # Allow all authenticated users to view and update their own details
+        if self.action in ['retrieve', 'update', 'partial_update']:
+            return [IsAuthenticated()]
+        # Only admins can list or delete users
+        elif self.action in ['list', 'destroy']:
+            return [IsAdminUser()]
+        return super().get_permissions()
+
+    def perform_update(self, serializer):
+        # Ensure non-admins can't make other users admins
+        if 'is_staff' in serializer.validated_data and not self.request.user.is_staff:
+            raise serializers.ValidationError("Only admins can change admin status.")
+        serializer.save()
