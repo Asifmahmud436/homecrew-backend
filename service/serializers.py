@@ -18,6 +18,6 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = models.Review
         fields = '__all__'
 
-    def get_client(self, obj):
-        # Accessing the username from the related User model through the Client model
-        return obj.client.user.username if obj.client and obj.client.user else 'Anonymous'
+    # def get_client(self, obj):
+    #     # Accessing the username from the related User model through the Client model
+    #     return obj.client.user.username if obj.client and obj.client.user else 'Anonymous'
