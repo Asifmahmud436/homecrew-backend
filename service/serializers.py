@@ -20,4 +20,4 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def get_client(self, obj):
         # Accessing the username from the related User model through the Client model
-        return obj.client.user.username if obj.client and obj.client.user else None
+        return obj.client.user.username if obj.client and obj.client.user else 'Anonymous'

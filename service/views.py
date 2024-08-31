@@ -4,6 +4,7 @@ from .import models
 from .import serializers
 from rest_framework import filters
 from django.db.models import Avg
+from django.core.exceptions import PermissionDenied
 
 
 class ReviewForService(filters.BaseFilterBackend):
@@ -13,13 +14,15 @@ class ReviewForService(filters.BaseFilterBackend):
             return query_set.filter(service=service_id)
         return query_set
 
-class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = models.Review.objects.all()
-    serializer_class = serializers.ReviewSerializer
-    filter_backends = [ReviewForService]
-
-    def perform_create(self, serializer):
-        serializer.save(client=self.request.client)
+def perform_create(self, serializer):
+    if self.request.user.is_authenticated:
+        try:
+            client = self.request.user.client
+            serializer.save(client=client)
+        except models.Client.DoesNotExist:
+            raise PermissionDenied("Client profile does not exist.")
+    else:
+        raise PermissionDenied("You must be logged in to submit a review.")
 
 class ServiceViewSet(viewsets.ModelViewSet):
     # queryset = models.Service.objects.all()
