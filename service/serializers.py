@@ -11,6 +11,8 @@ class ServiceSerializer(serializers.ModelSerializer):
         return obj.get_average_rating()
 
 class ReviewSerializer(serializers.ModelSerializer):
+    client_name = serializers.CharField(source='client.user.first_name',read_only=True)
+
     class Meta:
         model = models.Review
-        fields = '__all__'
+        fields = ['id','body','created_on','rating','client_name','service']
