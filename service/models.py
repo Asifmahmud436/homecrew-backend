@@ -31,7 +31,7 @@ class Service(models.Model):
 class Review(models.Model):
     # service = models.ForeignKey(Service,on_delete=models.CASCADE)
     client = models.ForeignKey(Client,on_delete=models.CASCADE,null=True,blank=True)
-    service = models.ForeignKey(Service,on_delete=models.CASCADE,related_name='reviews')
+    service = models.ForeignKey(Service,on_delete=models.CASCADE,related_name='reviews',null=True,blank=True)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     rating = models.CharField(max_length=10,choices=STARS)
