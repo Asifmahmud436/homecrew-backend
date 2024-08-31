@@ -19,16 +19,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReviewSerializer
     filter_backends = [ReviewForService]
 
-    # def perform_create(self, serializer):
-    #     user = self.request.user
-    #     if user.is_authenticated:
-    #         try:
-    #             client = user.client
-    #             serializer.save(client=client)
-    #         except models.Client.DoesNotExist:
-    #             raise PermissionDenied("Client profile does not exist.")
-    #     else:
-    #         raise PermissionDenied("You must be logged in to submit a review.")
 
 class ServiceViewSet(viewsets.ModelViewSet):
     # queryset = models.Service.objects.all()
@@ -36,8 +26,6 @@ class ServiceViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = models.Service.objects.all()
-        
-
         queryset = queryset.annotate(
             average_rating=Avg('reviews__rating')
         )

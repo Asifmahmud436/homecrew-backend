@@ -11,13 +11,6 @@ class ServiceSerializer(serializers.ModelSerializer):
         return obj.get_average_rating()
 
 class ReviewSerializer(serializers.ModelSerializer):
-    client = serializers.SerializerMethodField()
-    service = serializers.PrimaryKeyRelatedField(queryset=models.Service.objects.all())
-
     class Meta:
         model = models.Review
         fields = '__all__'
-
-    # def get_client(self, obj):
-    #     # Accessing the username from the related User model through the Client model
-    #     return obj.client.user.username if obj.client and obj.client.user else 'Anonymous'
