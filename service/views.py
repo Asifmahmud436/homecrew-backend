@@ -20,9 +20,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends = [ReviewForService]
 
     def perform_create(self, serializer):
-        if self.request.user.is_authenticated:
+        user = self.request.user
+        if user.is_authenticated:
             try:
-                client = self.request.user.client
+                client = user.client
                 serializer.save(client=client)
             except models.Client.DoesNotExist:
                 raise PermissionDenied("Client profile does not exist.")
