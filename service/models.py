@@ -35,7 +35,7 @@ class Review(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     rating = models.CharField(max_length=10,choices=STARS)
-    slug = models.SlugField(max_length=40)
+    slug = models.SlugField(max_length=40,null=True,blank=True)
 
     def __str__(self) :
         return f"{self.client.user.first_name} {self.client.user.last_name}'s review on {self.service.name}"
