@@ -14,15 +14,20 @@ class ReviewForService(filters.BaseFilterBackend):
             return query_set.filter(service=service_id)
         return query_set
 
-def perform_create(self, serializer):
-    if self.request.user.is_authenticated:
-        try:
-            client = self.request.user.client
-            serializer.save(client=client)
-        except models.Client.DoesNotExist:
-            raise PermissionDenied("Client profile does not exist.")
-    else:
-        raise PermissionDenied("You must be logged in to submit a review.")
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = models.Review.objects.all()
+    serializer_class = serializers.ReviewSerializer
+    filter_backends = [ReviewForService]
+
+    def perform_create(self, serializer):
+        if self.request.user.is_authenticated:
+            try:
+                client = self.request.user.client
+                serializer.save(client=client)
+            except models.Client.DoesNotExist:
+                raise PermissionDenied("Client profile does not exist.")
+        else:
+            raise PermissionDenied("You must be logged in to submit a review.")
 
 class ServiceViewSet(viewsets.ModelViewSet):
     # queryset = models.Service.objects.all()
