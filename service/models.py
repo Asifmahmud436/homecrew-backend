@@ -2,11 +2,11 @@ from django.db import models
 from client.models import Client
 
 STARS = [
-    ('One','1'),
-    ('Two','2'),
-    ('Three','3'),
-    ('Four','4'),
-    ('Five','5'),
+    ('1','1'),
+    ('2','2'),
+    ('3','3'),
+    ('4','4'),
+    ('5','5'),
 ]
 STAR_VALUES = dict(STARS)
 class Service(models.Model):
