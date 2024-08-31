@@ -12,7 +12,8 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     client_name = serializers.CharField(source='client.user.first_name',read_only=True)
+    service_name = serializers.CharField(source='service.name',read_only=True)
 
     class Meta:
         model = models.Review
-        fields = ['id','body','created_on','rating','client_name','service']
+        fields = ['id','body','created_on','rating','client_name','client','service_name','service']
