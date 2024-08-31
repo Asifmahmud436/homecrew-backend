@@ -18,6 +18,9 @@ class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReviewSerializer
     filter_backends = [ReviewForService]
 
+    def perform_create(self, serializer):
+        serializer.save(client=self.request.user.client)
+
 class ServiceViewSet(viewsets.ModelViewSet):
     # queryset = models.Service.objects.all()
     serializer_class = serializers.ServiceSerializer
