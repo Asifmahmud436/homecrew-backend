@@ -8,6 +8,7 @@ class Client(models.Model):
     image = models.ImageField(upload_to='client/images/', blank=True, null=True)
     phone_no = models.CharField(max_length=12, blank=True, null=True)
     facebook_Id_link = models.URLField(max_length=255, validators=[URLValidator()], blank=True, null=True)
+    request_for_admin = models.BooleanField(default=False,blank=True)
 
 
     def __str__(self):
