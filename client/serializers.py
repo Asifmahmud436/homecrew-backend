@@ -38,6 +38,7 @@ class ClientSerializer(serializers.ModelSerializer):
         instance.phone_no = validated_data.get('phone_no', instance.phone_no)
         instance.facebook_Id_link = validated_data.get('facebook_Id_link', instance.facebook_Id_link)
         instance.image = validated_data.get('image', instance.image)
+        instance.request_for_admin = validated_data.get('request_for_admin', instance.request_for_admin)
         instance.save()
         return instance
 
