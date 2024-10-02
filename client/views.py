@@ -69,10 +69,12 @@ class UserLoginApiView(APIView):
 
             user = authenticate(username= username, password=password)
             
-            if user is None:
-                return Response({'error':"Invalid credentials.Please try again."},status=400)
             if not user.is_active:
                 return Response({'error':"Your account is not activated.Please check your mail for the acitvation link."},status=403)
+            
+            if user is None:
+                return Response({'error':"Invalid credentials.Please try again."},status=400)
+            
         return Response(serializer.errors,status=400)
 
 class UserLogoutView(APIView):
