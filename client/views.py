@@ -70,13 +70,16 @@ class UserLoginApiView(APIView):
             user = authenticate(username= username, password=password)
             
             if user:
-                token, _ = Token.objects.get_or_create(user=user)
-                print(token)
-                print(_)
-                login(request, user)
-                return Response({'token' : token.key, 'user_id' : user.id})
+                if user.is_active:
+                    token, _ = Token.objects.get_or_create(user=user)
+                    print(token)
+                    print(_)
+                    login(request, user)
+                    return Response({'token' : token.key, 'user_id' : user.id})
+                else:
+                    return Response({'error':"Your account is not activated.Please check your email for the activation link."},status=403)
             else:
-                return Response({'error' : "Invalid Credential"})
+                return Response({'error' : "Invalid Credential.Please try again."})
         return Response(serializer.errors)
 
 class UserLogoutView(APIView):
