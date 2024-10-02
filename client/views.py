@@ -68,9 +68,10 @@ class UserLoginApiView(APIView):
             password = serializer.validated_data['password']
 
             user = authenticate(username= username, password=password)
-            
-            if user is not None:
-                if user.is_active:
+            user2 = User._default_manager.get(username=username)
+            print(user2)
+            if user2 is not None:
+                if user2.is_active and user is not None:
                     token, _ = Token.objects.get_or_create(user=user)
                     login(request, user)
                     return Response({'token': token.key, 'user_id': user.id})
@@ -79,6 +80,7 @@ class UserLoginApiView(APIView):
                         {'error': "Your account is not activated. Please check your email for the activation link."},
                         status=403
                     )
+                    print(user)
             else:
                 return Response(
                     {'error': "Invalid username or password. Please try again."},
