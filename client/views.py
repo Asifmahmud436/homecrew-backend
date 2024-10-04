@@ -68,21 +68,26 @@ class UserLoginApiView(APIView):
             password = serializer.validated_data['password']
 
             user = authenticate(username= username, password=password)
-            user2 = User._default_manager.get(username=username)
-            # print(user2)
+            try:
+                user2 = User._default_manager.get(username=username)
+            except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+                user2 = None
+            
             if user2 is not None:
-                if user2.is_active and user is not None:
-                    token, _ = Token.objects.get_or_create(user=user)
-                    login(request, user)
-                    return Response({'token': token.key, 'user_id': user.id})
+                if user2.is_active:
+                    if user is not None:
+                        token, _ = Token.objects.get_or_create(user=user)
+                        login(request, user)
+                        return Response({'token': token.key, 'user_id': user.id})
+                    else:
+                        return Response({'error': "Invalid password. Please try again."})
                 else:
                     return Response(
                         {'error': "Your account is not activated. Please check your email for the activation link."}
                     )
-                    print(user)
             else:
                 return Response(
-                    {'error': "Invalid username or password. Please try again."}
+                    {'error': "Invalid Username. Please try again."}
                 )
         return Response(serializer.errors)
 
