@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-re#t!xle-@)mt=1kep8)ysvm#-3omm0_k8imh81xo)wa_cd8!(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1",'.vercel.app']
 
 
 # Application definition
@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'homecrew.wsgi.application'
+WSGI_APPLICATION = 'homecrew.wsgi.app'
 
 
 # Database
@@ -143,6 +143,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

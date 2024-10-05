@@ -20,14 +20,18 @@ class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends = [ReviewForService]
 
 
+from django.db.models import Avg, IntegerField
+from django.db.models.functions import Cast
+
 class ServiceViewSet(viewsets.ModelViewSet):
-    # queryset = models.Service.objects.all()
     serializer_class = serializers.ServiceSerializer
 
     def get_queryset(self):
         queryset = models.Service.objects.all()
+
+        # Cast the 'rating' field to Integer before averaging
         queryset = queryset.annotate(
-            average_rating=Avg('reviews__rating')
+            average_rating=Avg(Cast('reviews__rating', IntegerField()))
         )
 
         queryset = queryset.order_by('-average_rating')
