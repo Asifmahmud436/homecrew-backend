@@ -1,5 +1,7 @@
 from django.db import models
 from client.models import Client
+from django.db.models import Avg, IntegerField
+from django.db.models.functions import Cast
 
 STARS = [
     ('1','1'),
@@ -15,12 +17,12 @@ class Service(models.Model):
     image = models.ImageField(upload_to='service/images/')
 
     def get_average_rating(self):
-        reviews = self.reviews.all()
-        if not reviews:
+        reviews = self.reviews.annotate(
+            numeric_rating=Cast('rating', IntegerField())
+        )
+        if not reviews.exists():
             return None
-        total_rating = sum(int(STAR_VALUES.get(review.rating,'0')) for review in reviews)
-        average_rating = total_rating/reviews.count() if reviews.count() > 0 else None
-        return average_rating
+        return reviews.aggregate(average_rating=Avg('numeric_rating'))['average_rating']
     
     
     def __str__(self):
