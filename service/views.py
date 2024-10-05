@@ -5,6 +5,9 @@ from .import serializers
 from rest_framework import filters
 from django.db.models import Avg
 from django.core.exceptions import PermissionDenied
+from django.db.models import Avg, IntegerField
+from django.db.models.functions import Cast
+
 
 
 class ReviewForService(filters.BaseFilterBackend):
@@ -20,8 +23,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends = [ReviewForService]
 
 
-from django.db.models import Avg, IntegerField
-from django.db.models.functions import Cast
 
 class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ServiceSerializer
