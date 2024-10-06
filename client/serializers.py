@@ -19,7 +19,6 @@ class Usererializer(serializers.ModelSerializer):
 
 class ClientSerializer(serializers.ModelSerializer):
     user = Usererializer()
-    # user = serializers.StringRelatedField(many = False)
     class Meta:
         model = models.Client
         fields = '__all__'

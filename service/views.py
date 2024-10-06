@@ -29,8 +29,6 @@ class ServiceViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = models.Service.objects.all()
-
-        # Cast the 'rating' field to Integer before averaging
         queryset = queryset.annotate(
             average_rating=Avg(Cast('reviews__rating', IntegerField()))
         )
