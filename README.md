@@ -242,8 +242,6 @@ Start the server
 - Cross platform
 
 ## Lessons Learned
-
-After completing this project, I can: 
 - Use multiple role base user
 - Can sort the services by average rankings
 - Deploy Projects on Vercel 
