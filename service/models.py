@@ -14,6 +14,7 @@ STAR_VALUES = dict(STARS)
 class Service(models.Model):
     name = models.CharField(max_length=16)
     description = models.TextField()
+    price = models.IntegerField(blank=True,null=True)
     image = models.ImageField(upload_to='service/images/')
 
     def get_average_rating(self):
